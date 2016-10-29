@@ -1,0 +1,85 @@
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+
+
+<body>
+{{#if user}}
+el usuario es: {{user}}
+
+<form action="/new_article" method="post">
+    <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+    <div>
+        <label>location:</label>
+        <input type="text" name="location"/>
+    </div>
+    <div>
+        <label>title:</label>
+        <input type="text" name="title"/>
+    </div>
+    <div>
+        <label>content:</label>
+        <input type="text" name="content"/>
+    </div>
+    <div>
+        <label>link:</label>
+        <input type="text" name="link"/>
+    </div>
+    <input type='hidden' name="beach" value='false'>
+    <input type="checkbox" name="beach" value="true">beach<br>
+    <input type="hidden" name="bike" value="false">
+    <input type="checkbox" name="bike" value="true" >bike<br>
+    <input type="hidden" name="childFriendly" value="false">
+    <input type="checkbox" name="childFriendly" value="true" >childFriendly<br>
+    <input type="hidden" name="mountain" value="false">
+    <input type="checkbox" name="mountain" value="true" >mountain<br>
+    <input type="hidden" name="gastro" value="false">
+    <input type="checkbox" name="gastro" value="true" checked>gastro<br>
+    <div>
+        <input type="submit" value="Log In"/>
+    </div>
+</form>
+
+
+{{else}}Sorry, there´s no a user logged.
+        <a href="/auth/facebook">AUNTENTIFICACION POR FACEBOOK</a>
+
+{{/if}}
+
+<script type='text/javascript'>
+    
+    function initialize() {
+
+      var latitud = $('#map_canvas').attr('latitud');
+      var longitud = $('#map_canvas').attr('longitud');
+
+      var myLatlng = new google.maps.LatLng(latitud, longitud);
+      var myOptions = {
+        zoom: 8,
+        center: myLatlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+      var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+      var pos = new google.maps.LatLng(latitud, longitud);
+      var marker = new google.maps.Marker({
+        position: pos,
+        map: map,
+      });
+    }
+
+
+    function loadScript() {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
+      document.body.appendChild(script);
+    }
+
+    $('#botonViaje').on('click', function(){
+      loadScript()
+    })
+
+</script>
+
+</body>
+
+

@@ -1,0 +1,93 @@
+<htm>
+	<head>
+		<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.3.0/handlebars.min.js"></script>
+		<!--<script id="templateMap" type="text/x-handlebars-template">
+        	<div id="serch" serch='{{latitud}}'>holaaaa</div>
+        </script>-->
+			
+		<style>
+			#botonViaje{
+				height: 70px;
+				width: 140px;
+				background-color: green;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+
+		{{#if article}}
+
+        <div id="map_canvas" style="height: 300px; width: 300px; background: grey" latitud="{{latitude}}" longitud="{{longitude}}"></div>
+        <br>
+        <div id="botonViaje">Pulsa para ver en mapa</div>
+        
+
+        <p>El artículo es del usuario: {{ article.user.username}}</p>
+        <p>Título: {{ article.title}}</p>
+        <p>Contenido: {{ article.content}}</p>
+        <p>Link: {{ article.link}}</p>
+        {{#if article.beach}}<p>Cosas de playita</p>{{/if}}
+        {{#if article.bike}}<p>Pa pillar la bici</p>{{/if}}
+        {{#if article.childFriendly}}<p>Pa los niños, guay</p>{{/if}}
+        {{#if article.mountain}}<p>Montaña ey ey</p>{{/if}}
+        {{#if article.gastro}}<p>Ponte cerdo de comer, tron</p>{{/if}}
+        
+        {{/if}}
+
+        <form action="/save_article_unique" method="post">
+		    <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+		    <div>
+		        <input type="submit" value="Salvar artículo"/>
+		    </div>
+		</form>
+
+        <script type='text/javascript'>
+        
+		    function initialize() {
+
+              var latitud = $('#map_canvas').attr('latitud');
+              var longitud = $('#map_canvas').attr('longitud');
+
+		      var myLatlng = new google.maps.LatLng(latitud, longitud);
+		      var myOptions = {
+		        zoom: 8,
+		        center: myLatlng,
+		        mapTypeId: google.maps.MapTypeId.ROADMAP
+		      }
+		      var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+		      var pos = new google.maps.LatLng(latitud, longitud);
+		   	  var marker = new google.maps.Marker({
+				position: pos,
+				map: map,
+		      });
+		    }
+    
+
+		    function loadScript() {
+		      var script = document.createElement("script");
+		      script.type = "text/javascript";
+		      script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
+		      document.body.appendChild(script);
+		    }
+
+		    $('#botonViaje').on('click', function(){
+		      loadScript()
+		    })
+	   
+		</script>
+
+
+	</body>
+</html>
+
+
+
+
+
+
+
+
+

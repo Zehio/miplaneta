@@ -1,0 +1,103 @@
+<htm>
+	<head>
+		<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.3.0/handlebars.min.js"></script>
+		<script id="templateMap" type="text/x-handlebars-template">
+        	<div id="serch" serch='{{latitud}}'>holaaaa</div>
+        </script>
+		
+		
+		
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<br>
+		posicion {{ posicion }} <br>
+		la latitud es: {{ latitud }} <br>
+		y la longitud es: {{ longitud }}
+		<br>
+
+        
+		<form action="/posicion" method="POST">
+	    <input type="hidden" name="hush" val="hidden, but not secret!">
+	    <div>
+		<label for="fieldName">Donde buscar</label>
+		<input type="text" id="fieldName" name="name">
+	    </div>
+	    <div>
+		<button type="submit">Submit</button>
+	    </div>
+        </form>
+        <div id="map_canvas" style="height: 300px; width: 300px; background: grey" latitud="{{latitud}}" longitud="{{longitud}}"></div>
+<!--
+        <script>
+		$(document).ready(function(){
+
+			/*var data = {
+					latitud: 'basilisk',
+					bodyPart: 'tail',
+					adjective: 'sharp',
+					noun: 'a needle'
+			};*/
+
+			var templateMap = Handlebars.compile($('#templateMap').html());
+			var $map_canvas = $('#map_canvas');
+			$(document).on('click', function(evt){
+				evt.preventDefault();
+				$map_canvas.html(templateMap(data));
+			});
+		});
+		</script>
+-->
+        <script type='text/javascript'>
+            
+            
+		    function initialize() {
+
+              var latitud = $('#map_canvas').attr('latitud');
+              var longitud = $('#map_canvas').attr('longitud');
+
+		      var myLatlng = new google.maps.LatLng(latitud, longitud);
+		      var myOptions = {
+		        zoom: 8,
+		        center: myLatlng,
+		        mapTypeId: google.maps.MapTypeId.ROADMAP
+		      }
+		      var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+		      var pos = new google.maps.LatLng(latitud, longitud);
+		   	  var marker = new google.maps.Marker({
+				position: pos,
+				map: map,
+		      });
+		    }
+
+		    
+
+		    function loadScript() {
+		      var script = document.createElement("script");
+		      script.type = "text/javascript";
+		      script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
+		      document.body.appendChild(script);
+		    }
+
+		    
+		    	loadScript()
+		    
+
+		</script>
+
+
+	</body>
+</html>
+
+
+
+
+
+
+
+
+

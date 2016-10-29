@@ -1,0 +1,25 @@
+
+{{#if user}}Ya estás registrado como: {{user}}
+<a href="/logout">LOGOUT</a>
+{{ else }}
+<form action="/login" method="post">
+    <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+    <div>
+        <label>Username:</label>
+        <input type="text" name="username"/>
+    </div>
+    <div>
+        <label>Password:</label>
+        <input type="password" name="password"/>
+    </div>
+    <div>
+        <input type="submit" value="Log In"/>
+    </div>
+</form>
+
+<a href="/auth/facebook">AUNTENTIFICACION POR FACEBOOK</a>
+
+{{/if}}
+{{#if err}}Se ha producido el error: {{err}}
+{{/if}}
+
